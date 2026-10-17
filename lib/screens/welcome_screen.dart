@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import '../providers/quiz_providers.dart';
+import 'package:provider/provider.dart';
 import '../utils/responsive.dart';
 import '../widgets/custom_button.dart';
 import '../widgets/gradient_background.dart';
+import 'quiz_screen.dart';
 
 /// Halaman 1: sambutan + input nama.
 /// StatefulWidget karena memakai TextEditingController dan validasi form.
@@ -13,8 +16,15 @@ class WelcomeScreen extends StatefulWidget {
 }
 
 class _WelcomeScreenState extends State<WelcomeScreen> {
-  final _controller = TextEditingController();
+  late final TextEditingController _controller;
   final _formKey = GlobalKey<FormState>();
+
+  @override
+  void initState() {
+    super.initState();
+    // Isi otomatis dengan nama sebelumnya (jika ada).
+    _controller = TextEditingController(text: context.read<QuizProvider>().playerName);
+  }
 
   @override
   void dispose() {
@@ -25,15 +35,17 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
   void _start() {
     if (!_formKey.currentState!.validate()) return;
     FocusScope.of(context).unfocus();
-    // Sementara: tampilkan pesan. Navigasi ke halaman kuis dibuat nanti.
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('Halo, ${_controller.text.trim()}! Kuis segera dimulai.')),
+    context.read<QuizProvider>().startQuiz(_controller.text);
+    Navigator.of(context).push(
+      MaterialPageRoute(builder: (_) => const QuizScreen()),
     );
   }
 
   @override
   Widget build(BuildContext context) {
+    final quiz = context.watch<QuizProvider>();
     final cs = Theme.of(context).colorScheme;
+    final canResume = quiz.hasProgress && quiz.playerName.isNotEmpty;
 
     return Scaffold(
       body: GradientBackground(
@@ -45,10 +57,13 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Image.asset(
-                    'assets/images/logo.png',
-                    width: context.sp(130),
-                    height: context.sp(130),
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(context.sp(28)),
+                    child: Image.asset(
+                      'assets/images/logo.png',
+                      width: context.sp(130),
+                      height: context.sp(130),
+                    ),
                   ),
                   SizedBox(height: context.sp(16)),
                   Text(
@@ -58,7 +73,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                   ),
                   SizedBox(height: context.sp(6)),
                   Text(
-                    'Uji pengetahuanmu dengan pertanyaan pilihan ganda!',
+                    'Uji pengetahuanmu dengan ${quiz.total} pertanyaan pilihan ganda!',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         fontSize: context.sp(13), color: cs.onSurfaceVariant),
@@ -90,11 +105,18 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                   SizedBox(
                     width: double.infinity,
                     child: CustomButton(
-                      label: 'Mulai Kuis',
+                      label: canResume ? 'Lanjutkan Kuis' : 'Mulai Kuis',
                       icon: Icons.play_arrow_rounded,
                       onPressed: _start,
                     ),
                   ),
+                  if (canResume) ...[
+                    SizedBox(height: context.sp(10)),
+                    Text(
+                      'Progres tersimpan: ${quiz.answeredCount}/${quiz.total} terjawab',
+                      style: TextStyle(fontSize: context.sp(12), color: cs.primary),
+                    ),
+                  ],
                 ],
               ),
             ),
