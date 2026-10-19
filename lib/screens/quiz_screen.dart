@@ -7,7 +7,7 @@ import '../widgets/custom_button.dart';
 import '../widgets/custom_card.dart';
 import '../widgets/gradient_background.dart';
 import '../widgets/quiz_progress_bar.dart';
-// import 'result_screen.dart'; // diaktifkan di commit F
+import 'result_screen.dart';
 
 /// Halaman 2: menjawab soal.
 /// StatelessWidget karena semua state disimpan di QuizProvider,
@@ -113,11 +113,8 @@ class QuizScreen extends StatelessWidget {
                           ? null
                           : quiz.isLast
                       // Sementara (commit E): tampilkan skor lewat SnackBar.
-                          ? () => ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text(
-                              'Selesai! Skor: ${quiz.score}/${quiz.total}'),
-                        ),
+                          ? () => Navigator.of(context).pushReplacement(
+                        MaterialPageRoute(builder: (_) => const ResultScreen()),
                       )
                           : context.read<QuizProvider>().next,
                     ),
