@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import '../providers/quiz_providers.dart';
 import 'package:provider/provider.dart';
+import '../data/subtests_data.dart';
+import '../providers/quiz_providers.dart';
 import '../utils/responsive.dart';
 import '../widgets/custom_button.dart';
 import '../widgets/gradient_background.dart';
@@ -22,7 +23,6 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
   @override
   void initState() {
     super.initState();
-    // Isi otomatis dengan nama sebelumnya (jika ada).
     _controller = TextEditingController(text: context.read<QuizProvider>().playerName);
   }
 
@@ -35,7 +35,12 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
   void _start() {
     if (!_formKey.currentState!.validate()) return;
     FocusScope.of(context).unfocus();
-    context.read<QuizProvider>().startQuiz(_controller.text);
+    final quiz = context.read<QuizProvider>();
+    quiz.setPlayerName(_controller.text);
+
+    // Sementara (commit 2): langsung ke subtes pertama.
+    // Di commit 3 diganti menuju halaman pilih subtes.
+    quiz.selectSubtest(subtestsData.first);
     Navigator.of(context).push(
       MaterialPageRoute(builder: (_) => const QuizScreen()),
     );
@@ -43,9 +48,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final quiz = context.watch<QuizProvider>();
     final cs = Theme.of(context).colorScheme;
-    final canResume = quiz.hasProgress && quiz.playerName.isNotEmpty;
 
     return Scaffold(
       body: GradientBackground(
@@ -73,7 +76,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                   ),
                   SizedBox(height: context.sp(6)),
                   Text(
-                    'Uji pengetahuanmu dengan ${quiz.total} pertanyaan pilihan ganda!',
+                    'Pilih subtes favoritmu dan uji pengetahuanmu!',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         fontSize: context.sp(13), color: cs.onSurfaceVariant),
@@ -105,18 +108,11 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                   SizedBox(
                     width: double.infinity,
                     child: CustomButton(
-                      label: canResume ? 'Lanjutkan Kuis' : 'Mulai Kuis',
+                      label: 'Mulai',
                       icon: Icons.play_arrow_rounded,
                       onPressed: _start,
                     ),
                   ),
-                  if (canResume) ...[
-                    SizedBox(height: context.sp(10)),
-                    Text(
-                      'Progres tersimpan: ${quiz.answeredCount}/${quiz.total} terjawab',
-                      style: TextStyle(fontSize: context.sp(12), color: cs.primary),
-                    ),
-                  ],
                 ],
               ),
             ),
