@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../data/subtests_data.dart';
 import '../providers/quiz_providers.dart';
 import '../utils/responsive.dart';
 import '../widgets/custom_button.dart';
 import '../widgets/gradient_background.dart';
-import 'quiz_screen.dart';
+import 'subtest_screen.dart';
 
 /// Halaman 1: sambutan + input nama.
 /// StatefulWidget karena memakai TextEditingController dan validasi form.
@@ -35,14 +34,10 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
   void _start() {
     if (!_formKey.currentState!.validate()) return;
     FocusScope.of(context).unfocus();
-    final quiz = context.read<QuizProvider>();
-    quiz.setPlayerName(_controller.text);
-
-    // Sementara (commit 2): langsung ke subtes pertama.
-    // Di commit 3 diganti menuju halaman pilih subtes.
-    quiz.selectSubtest(subtestsData.first);
+    context.read<QuizProvider>().setPlayerName(_controller.text);
+    // Setelah isi nama, pengguna memilih subtes dulu.
     Navigator.of(context).push(
-      MaterialPageRoute(builder: (_) => const QuizScreen()),
+      MaterialPageRoute(builder: (_) => const SubtestScreen()),
     );
   }
 

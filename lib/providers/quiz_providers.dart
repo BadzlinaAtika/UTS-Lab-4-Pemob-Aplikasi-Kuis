@@ -1,18 +1,22 @@
 import 'package:flutter/foundation.dart';
-import '../data/questions_data.dart';
 import '../models/quiz_questions.dart';
+import '../models/subtest.dart';
 
-/// State management kuis. Provider ini dipasang di atas MaterialApp,
-/// jadi nama, nomor soal, dan jawaban tidak hilang saat layar dirotasi
-/// atau saat pindah halaman.
+/// State management kuis. Dipasang di atas MaterialApp sehingga nama,
+/// subtes terpilih, nomor soal, dan jawaban tidak hilang saat rotasi
+/// atau pindah halaman.
 class QuizProvider extends ChangeNotifier {
-  final List<QuizQuestion> questions = questionsData;
-
   String _playerName = '';
+  Subtest? _subtest;
   int _currentIndex = 0;
-  late List<int?> _answers = List.filled(questions.length, null);
+  List<int?> _answers = [];
 
   String get playerName => _playerName;
+  Subtest? get subtest => _subtest;
+
+  /// Soal mengikuti subtes yang sedang dipilih.
+  List<QuizQuestion> get questions => _subtest?.questions ?? const [];
+
   int get currentIndex => _currentIndex;
   int get total => questions.length;
   QuizQuestion get currentQuestion => questions[_currentIndex];
@@ -21,7 +25,12 @@ class QuizProvider extends ChangeNotifier {
   bool get isFirst => _currentIndex == 0;
   bool get isLast => _currentIndex == total - 1;
   int get answeredCount => _answers.where((a) => a != null).length;
-  bool get hasProgress => answeredCount > 0;
+
+  /// Ada progres jika sudah ada jawaban tapi kuis belum selesai semua.
+  bool get hasProgress => answeredCount > 0 && answeredCount < total;
+
+  /// Apakah subtes [s] sedang dikerjakan dan punya progres?
+  bool hasProgressIn(Subtest s) => _subtest?.id == s.id && hasProgress;
 
   int get score {
     var s = 0;
@@ -31,14 +40,25 @@ class QuizProvider extends ChangeNotifier {
     return s;
   }
 
-  int get percent => (score / total * 100).round();
+  int get percent => total == 0 ? 0 : (score / total * 100).round();
 
-  /// Dipanggil saat tombol mulai ditekan. Jika nama sama dan masih ada
-  /// progres, kuis dilanjutkan; jika tidak, kuis dimulai dari awal.
-  void startQuiz(String name) {
-    final sameUser = name.trim() == _playerName;
-    _playerName = name.trim();
-    if (!(sameUser && hasProgress)) _resetAnswers();
+  /// Menyimpan nama. Jika nama berubah, progres lama dibuang.
+  void setPlayerName(String name) {
+    final clean = name.trim();
+    if (clean != _playerName) {
+      _playerName = clean;
+      _subtest = null;
+      _answers = [];
+      _currentIndex = 0;
+    }
+    notifyListeners();
+  }
+
+  /// Memilih subtes. Jika subtes yang sama masih punya progres, dilanjutkan.
+  void selectSubtest(Subtest s) {
+    final resume = hasProgressIn(s);
+    _subtest = s;
+    if (!resume) _resetAnswers();
     notifyListeners();
   }
 
@@ -68,6 +88,6 @@ class QuizProvider extends ChangeNotifier {
 
   void _resetAnswers() {
     _currentIndex = 0;
-    _answers = List.filled(questions.length, null);
+    _answers = List.filled(total, null);
   }
 }

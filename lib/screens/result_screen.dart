@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../data/subtests_data.dart';
 import '../providers/quiz_providers.dart';
 import '../theme/app_theme.dart';
 import '../utils/responsive.dart';
@@ -7,10 +8,12 @@ import '../widgets/custom_button.dart';
 import '../widgets/custom_card.dart';
 import '../widgets/gradient_background.dart';
 import '../widgets/score_ring.dart';
+import '../widgets/subtest_card.dart';
 import 'quiz_screen.dart';
 import 'welcome_screen.dart';
 
-/// Halaman 3: skor akhir atas nama pengguna + pembahasan tiap soal.
+/// Halaman hasil: skor atas nama pengguna, pilihan subtes lain,
+/// dan pembahasan tiap soal.
 class ResultScreen extends StatelessWidget {
   const ResultScreen({super.key});
 
@@ -26,6 +29,10 @@ class ResultScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final quiz = context.watch<QuizProvider>();
     final cs = Theme.of(context).colorScheme;
+
+    // Subtes lain = semua subtes kecuali yang baru dikerjakan.
+    final otherSubtests =
+    subtestsData.where((s) => s.id != quiz.subtest?.id).toList();
 
     return Scaffold(
       body: GradientBackground(
@@ -51,6 +58,11 @@ class ResultScreen extends StatelessWidget {
               'Skor ${quiz.playerName}',
               textAlign: TextAlign.center,
               style: TextStyle(fontSize: context.sp(22), fontWeight: FontWeight.w700),
+            ),
+            Text(
+              quiz.subtest?.title ?? '',
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: context.sp(13), color: cs.onSurfaceVariant),
             ),
             SizedBox(height: context.sp(16)),
             Center(child: ScoreRing(score: quiz.score, total: quiz.total)),
@@ -98,6 +110,29 @@ class ResultScreen extends StatelessWidget {
               ],
             ),
             SizedBox(height: context.sp(24)),
+
+            // Pilih subtes lain langsung dari halaman hasil.
+            if (otherSubtests.isNotEmpty) ...[
+              Text(
+                'Coba Subtes Lain',
+                style: TextStyle(fontSize: context.sp(16), fontWeight: FontWeight.w700),
+              ),
+              SizedBox(height: context.sp(10)),
+              for (final s in otherSubtests)
+                SubtestCard(
+                  subtest: s,
+                  onTap: () {
+                    context.read<QuizProvider>().selectSubtest(s);
+                    // Ganti halaman hasil dengan kuis subtes baru, jadi tombol
+                    // ✕ di kuis akan kembali ke halaman pilih subtes.
+                    Navigator.of(context).pushReplacement(
+                      MaterialPageRoute(builder: (_) => const QuizScreen()),
+                    );
+                  },
+                ),
+              SizedBox(height: context.sp(12)),
+            ],
+
             Text(
               'Pembahasan',
               style: TextStyle(fontSize: context.sp(16), fontWeight: FontWeight.w700),
