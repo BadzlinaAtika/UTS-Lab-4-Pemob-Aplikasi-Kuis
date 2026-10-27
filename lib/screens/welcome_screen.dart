@@ -4,6 +4,7 @@ import '../providers/quiz_provider.dart';
 import '../utils/responsive.dart';
 import '../widgets/custom_button.dart';
 import '../widgets/gradient_background.dart';
+import '../widgets/theme_toggle_button.dart';
 import 'subtest_screen.dart';
 
 /// Halaman 1: sambutan + input nama.
@@ -47,71 +48,82 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
 
     return Scaffold(
       body: GradientBackground(
-        child: Center(
-          child: SingleChildScrollView(
-            padding: EdgeInsets.all(context.sp(20)),
-            child: Form(
-              key: _formKey,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(context.sp(28)),
-                    child: Image.asset(
-                      'assets/images/logo.png',
-                      width: context.sp(130),
-                      height: context.sp(130),
+        child: Column(
+          children: [
+            // Baris atas: tombol ganti tema
+            const Align(
+              alignment: Alignment.centerRight,
+              child: ThemeToggleButton(),
+            ),
+            Expanded(
+              child: Center(
+                child: SingleChildScrollView(
+                  padding: EdgeInsets.all(context.sp(20)),
+                  child: Form(
+                    key: _formKey,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(context.sp(28)),
+                          child: Image.asset(
+                            'assets/images/logo.png',
+                            width: context.sp(130),
+                            height: context.sp(130),
+                          ),
+                        ),
+                        SizedBox(height: context.sp(16)),
+                        Text(
+                          'QuizKuy',
+                          style: TextStyle(
+                              fontSize: context.sp(30), fontWeight: FontWeight.w700),
+                        ),
+                        SizedBox(height: context.sp(6)),
+                        Text(
+                          'Pilih subtes favoritmu dan uji pengetahuanmu!',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontSize: context.sp(13), color: cs.onSurfaceVariant),
+                        ),
+                        SizedBox(height: context.sp(28)),
+                        TextFormField(
+                          controller: _controller,
+                          textCapitalization: TextCapitalization.words,
+                          textInputAction: TextInputAction.done,
+                          maxLength: 20,
+                          style: TextStyle(
+                              fontSize: context.sp(15), fontWeight: FontWeight.w500),
+                          onFieldSubmitted: (_) => _start(),
+                          validator: (v) => (v == null || v.trim().isEmpty)
+                              ? 'Nama tidak boleh kosong'
+                              : null,
+                          decoration: InputDecoration(
+                            labelText: 'Nama kamu',
+                            prefixIcon: const Icon(Icons.person_rounded),
+                            filled: true,
+                            fillColor: cs.surface,
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(context.sp(16)),
+                              borderSide: BorderSide.none,
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: context.sp(12)),
+                        SizedBox(
+                          width: double.infinity,
+                          child: CustomButton(
+                            label: 'Mulai',
+                            icon: Icons.play_arrow_rounded,
+                            onPressed: _start,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                  SizedBox(height: context.sp(16)),
-                  Text(
-                    'QuizKuy',
-                    style: TextStyle(
-                        fontSize: context.sp(30), fontWeight: FontWeight.w700),
-                  ),
-                  SizedBox(height: context.sp(6)),
-                  Text(
-                    'Pilih subtes favoritmu dan uji pengetahuanmu!',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        fontSize: context.sp(13), color: cs.onSurfaceVariant),
-                  ),
-                  SizedBox(height: context.sp(28)),
-                  TextFormField(
-                    controller: _controller,
-                    textCapitalization: TextCapitalization.words,
-                    textInputAction: TextInputAction.done,
-                    maxLength: 20,
-                    style: TextStyle(
-                        fontSize: context.sp(15), fontWeight: FontWeight.w500),
-                    onFieldSubmitted: (_) => _start(),
-                    validator: (v) => (v == null || v.trim().isEmpty)
-                        ? 'Nama tidak boleh kosong'
-                        : null,
-                    decoration: InputDecoration(
-                      labelText: 'Nama kamu',
-                      prefixIcon: const Icon(Icons.person_rounded),
-                      filled: true,
-                      fillColor: cs.surface,
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(context.sp(16)),
-                        borderSide: BorderSide.none,
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: context.sp(12)),
-                  SizedBox(
-                    width: double.infinity,
-                    child: CustomButton(
-                      label: 'Mulai',
-                      icon: Icons.play_arrow_rounded,
-                      onPressed: _start,
-                    ),
-                  ),
-                ],
+                ),
               ),
             ),
-          ),
+          ],
         ),
       ),
     );
