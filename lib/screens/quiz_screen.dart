@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../providers/quiz_providers.dart';
+import '../providers/quiz_provider.dart';
 import '../utils/responsive.dart';
 import '../widgets/answer_option.dart';
 import '../widgets/custom_button.dart';

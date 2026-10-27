@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'quiz_questions.dart';
+import 'quiz_question.dart';
 
 /// Satu subtes (kategori kuis) beserta soal-soalnya.
 class Subtest {

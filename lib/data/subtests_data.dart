@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
-import '../models/quiz_questions.dart';
+import '../models/quiz_question.dart';
 import '../models/subtest.dart';
 
-/// Data dummy lokal: daftar subtes, masing-masing membawa soalnya sendiri.
+/// Data dummy lokal: daftar subtes, masing-masing membawa 10 soal.
 /// Untuk menambah subtes, tambahkan satu blok Subtest(...) di bawah.
+/// correctIndex dimulai dari 0 (0 = A, 1 = B, 2 = C, 3 = D).
 const List<Subtest> subtestsData = [
+  // ---------------------------------------------------------------- 1
   Subtest(
     id: 'dasar_pemrograman',
     title: 'Dasar Pemrograman',
@@ -42,8 +44,39 @@ const List<Subtest> subtestsData = [
         correctIndex: 2,
         explanation: 'Debugging adalah menemukan dan memperbaiki bug pada program.',
       ),
+      QuizQuestion(
+        text: 'Struktur yang memilih perintah berdasarkan suatu kondisi (if-else) disebut...',
+        options: ['Perulangan', 'Array', 'Percabangan', 'Fungsi'],
+        correctIndex: 2,
+        explanation: 'Percabangan menjalankan blok kode yang berbeda sesuai kondisi.',
+      ),
+      QuizQuestion(
+        text: 'Kumpulan data sejenis yang disimpan dalam satu variabel dan diakses dengan indeks disebut...',
+        options: ['Array', 'Fungsi', 'Konstanta', 'Kelas'],
+        correctIndex: 0,
+        explanation: 'Array (atau list) menyimpan banyak nilai yang diakses lewat nomor indeks.',
+      ),
+      QuizQuestion(
+        text: 'Blok kode bernama yang dapat dipanggil berulang kali disebut...',
+        options: ['Variabel', 'Komentar', 'Operator', 'Fungsi'],
+        correctIndex: 3,
+        explanation: 'Fungsi membungkus sekumpulan perintah agar bisa dipakai ulang.',
+      ),
+      QuizQuestion(
+        text: 'Operator % (modulus) pada pemrograman menghasilkan...',
+        options: ['Hasil bagi', 'Sisa bagi', 'Persentase', 'Hasil pangkat'],
+        correctIndex: 1,
+        explanation: 'Operator % menghasilkan sisa pembagian, misalnya 7 % 3 = 1.',
+      ),
+      QuizQuestion(
+        text: 'Tipe data yang digunakan untuk menyimpan teks adalah...',
+        options: ['String', 'Integer', 'Boolean', 'Double'],
+        correctIndex: 0,
+        explanation: 'String menyimpan rangkaian karakter seperti nama atau kalimat.',
+      ),
     ],
   ),
+  // ---------------------------------------------------------------- 2
   Subtest(
     id: 'pemrograman_mobile',
     title: 'Pemrograman Mobile',
@@ -81,8 +114,39 @@ const List<Subtest> subtestsData = [
         correctIndex: 0,
         explanation: 'Cross-platform memungkinkan satu basis kode berjalan di banyak platform.',
       ),
+      QuizQuestion(
+        text: 'Fitur untuk melihat perubahan kode tanpa memulai ulang aplikasi disebut...',
+        options: ['Hot Reload', 'Hot Delete', 'Hot Build', 'Hot Clean'],
+        correctIndex: 0,
+        explanation: 'Hot Reload memasukkan kode baru ke aplikasi yang sedang berjalan.',
+      ),
+      QuizQuestion(
+        text: 'Widget yang tampilannya tidak berubah setelah dibuat disebut...',
+        options: ['StatefulWidget', 'StatelessWidget', 'InheritedWidget', 'AnimatedWidget'],
+        correctIndex: 1,
+        explanation: 'StatelessWidget bersifat immutable dan tidak punya state internal.',
+      ),
+      QuizQuestion(
+        text: 'Alat yang meniru perangkat seluler di dalam komputer disebut...',
+        options: ['Emulator', 'Compiler', 'Debugger', 'Plugin'],
+        correctIndex: 0,
+        explanation: 'Emulator menjalankan aplikasi seluler tanpa membutuhkan ponsel fisik.',
+      ),
+      QuizQuestion(
+        text: 'Widget untuk menyusun anak secara vertikal adalah...',
+        options: ['Row', 'Column', 'Stack', 'Wrap'],
+        correctIndex: 1,
+        explanation: 'Column menyusun widget anak dari atas ke bawah.',
+      ),
+      QuizQuestion(
+        text: 'Perintah untuk menjalankan aplikasi Flutter dari terminal adalah...',
+        options: ['flutter start', 'flutter go', 'flutter launch', 'flutter run'],
+        correctIndex: 3,
+        explanation: 'flutter run membangun dan menjalankan aplikasi di perangkat.',
+      ),
     ],
   ),
+  // ---------------------------------------------------------------- 3
   Subtest(
     id: 'matematika_dasar',
     title: 'Matematika Dasar',
@@ -104,27 +168,58 @@ const List<Subtest> subtestsData = [
       ),
       QuizQuestion(
         text: 'Luas persegi dengan panjang sisi 7 cm adalah...',
-        options: ['14 cm²', '28 cm²', '49 cm²', '56 cm²'],
-        correctIndex: 2,
+        options: ['49 cm²', '14 cm²', '28 cm²', '56 cm²'],
+        correctIndex: 0,
         explanation: 'Luas persegi = sisi × sisi = 7 × 7 = 49 cm².',
       ),
       QuizQuestion(
         text: '25% dari 200 adalah...',
-        options: ['25', '40', '50', '75'],
-        correctIndex: 2,
+        options: ['25', '40', '75', '50'],
+        correctIndex: 3,
         explanation: '25% = 1/4, dan 1/4 × 200 = 50.',
       ),
       QuizQuestion(
         text: 'Akar kuadrat dari 144 adalah...',
-        options: ['10', '11', '12', '14'],
-        correctIndex: 2,
+        options: ['10', '12', '11', '14'],
+        correctIndex: 1,
         explanation: '12 × 12 = 144, jadi akarnya 12.',
+      ),
+      QuizQuestion(
+        text: 'Hasil dari 125 − 47 adalah...',
+        options: ['72', '78', '88', '82'],
+        correctIndex: 1,
+        explanation: '125 − 47 = 78.',
+      ),
+      QuizQuestion(
+        text: 'Keliling persegi panjang dengan panjang 10 cm dan lebar 6 cm adalah...',
+        options: ['16 cm', '32 cm', '60 cm', '64 cm'],
+        correctIndex: 1,
+        explanation: 'Keliling = 2 × (p + l) = 2 × (10 + 6) = 32 cm.',
+      ),
+      QuizQuestion(
+        text: 'Hasil dari 2³ (dua pangkat tiga) adalah...',
+        options: ['6', '9', '16', '8'],
+        correctIndex: 3,
+        explanation: '2³ = 2 × 2 × 2 = 8.',
+      ),
+      QuizQuestion(
+        text: 'KPK (Kelipatan Persekutuan Terkecil) dari 4 dan 6 adalah...',
+        options: ['2', '12', '10', '24'],
+        correctIndex: 1,
+        explanation: 'Kelipatan 4: 4, 8, 12. Kelipatan 6: 6, 12. KPK-nya adalah 12.',
+      ),
+      QuizQuestion(
+        text: 'Rata-rata dari 70, 80, dan 90 adalah...',
+        options: ['70', '75', '80', '85'],
+        correctIndex: 2,
+        explanation: '(70 + 80 + 90) ÷ 3 = 240 ÷ 3 = 80.',
       ),
     ],
   ),
+  // ---------------------------------------------------------------- 4
   Subtest(
     id: 'science',
-    title: 'Science (IPA SMA)',
+    title: 'Science',
     description: 'Fisika, kimia, biologi, dan sains bumi.',
     icon: Icons.science_rounded,
     color: Color(0xFF22A06B),
@@ -149,8 +244,8 @@ const List<Subtest> subtestsData = [
       ),
       QuizQuestion(
         text: 'Gas yang diserap tumbuhan saat fotosintesis adalah...',
-        options: ['Oksigen', 'Nitrogen', 'Karbon dioksida', 'Hidrogen'],
-        correctIndex: 2,
+        options: ['Karbon dioksida', 'Oksigen', 'Nitrogen', 'Hidrogen'],
+        correctIndex: 0,
         explanation: 'Tumbuhan menyerap CO2 dan menghasilkan oksigen serta glukosa.',
       ),
       QuizQuestion(
@@ -158,6 +253,36 @@ const List<Subtest> subtestsData = [
         options: ['Venus', 'Bumi', 'Mars', 'Merkurius'],
         correctIndex: 3,
         explanation: 'Merkurius adalah planet terdekat dari Matahari di tata surya.',
+      ),
+      QuizQuestion(
+        text: 'Satuan massa dalam Sistem Internasional (SI) adalah...',
+        options: ['Gram', 'Kilogram', 'Newton', 'Liter'],
+        correctIndex: 1,
+        explanation: 'Satuan pokok massa dalam SI adalah kilogram (kg).',
+      ),
+      QuizQuestion(
+        text: 'Zat hijau pada daun yang berperan dalam fotosintesis adalah...',
+        options: ['Klorofil', 'Hemoglobin', 'Melanin', 'Keratin'],
+        correctIndex: 0,
+        explanation: 'Klorofil menyerap cahaya matahari untuk proses fotosintesis.',
+      ),
+      QuizQuestion(
+        text: 'Gas penyusun terbesar atmosfer Bumi adalah...',
+        options: ['Oksigen', 'Nitrogen', 'Argon', 'Karbon dioksida'],
+        correctIndex: 1,
+        explanation: 'Atmosfer Bumi terdiri dari sekitar 78% nitrogen dan 21% oksigen.',
+      ),
+      QuizQuestion(
+        text: 'Perubahan wujud zat dari cair menjadi gas disebut...',
+        options: ['Menguap', 'Membeku', 'Mencair', 'Mengembun'],
+        correctIndex: 0,
+        explanation: 'Menguap adalah perubahan wujud dari cair menjadi gas.',
+      ),
+      QuizQuestion(
+        text: 'Organ yang berfungsi memompa darah ke seluruh tubuh adalah...',
+        options: ['Paru-paru', 'Hati', 'Ginjal', 'Jantung'],
+        correctIndex: 3,
+        explanation: 'Jantung memompa darah agar beredar ke seluruh tubuh.',
       ),
     ],
   ),

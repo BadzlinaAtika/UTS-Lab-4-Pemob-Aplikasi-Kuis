@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../data/subtests_data.dart';
-import '../providers/quiz_providers.dart';
+import '../providers/quiz_provider.dart';
 import '../utils/responsive.dart';
 import '../widgets/gradient_background.dart';
 import '../widgets/subtest_card.dart';

@@ -1,5 +1,5 @@
 import 'package:flutter/foundation.dart';
-import '../models/quiz_questions.dart';
+import '../models/quiz_question.dart';
 import '../models/subtest.dart';
 
 /// State management kuis. Dipasang di atas MaterialApp sehingga nama,
