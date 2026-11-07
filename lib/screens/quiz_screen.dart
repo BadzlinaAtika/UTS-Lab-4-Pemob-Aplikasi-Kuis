@@ -9,9 +9,7 @@ import '../widgets/gradient_background.dart';
 import '../widgets/quiz_progress_bar.dart';
 import 'result_screen.dart';
 
-/// Halaman 2: menjawab soal.
-/// StatelessWidget karena semua state disimpan di QuizProvider,
-/// sehingga progres aman saat layar dirotasi.
+
 class QuizScreen extends StatelessWidget {
   const QuizScreen({super.key});
 

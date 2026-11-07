@@ -4,6 +4,8 @@
 
 **Lab     : 4**
 
+**Asisten Laboratorium     : Muhammad Dzakwan Attaqiy**
+
 **QuizKuy**
 
 QuizKuy adalah aplikasi kuis pilihan ganda bertema pemrograman Flutter. Pengguna mengisi nama di halaman sambutan, menjawab 10 soal satu per satu dengan bar progres, lalu melihat skor akhir atas nama mereka beserta pembahasan setiap soal. Progres jawaban disimpan dengan state management sehingga tidak hilang saat layar dirotasi maupun saat berpindah halaman.

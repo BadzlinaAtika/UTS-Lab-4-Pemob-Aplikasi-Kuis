@@ -7,8 +7,6 @@ import '../widgets/gradient_background.dart';
 import '../widgets/theme_toggle_button.dart';
 import 'subtest_screen.dart';
 
-/// Halaman 1: sambutan + input nama.
-/// StatefulWidget karena memakai TextEditingController dan validasi form.
 class WelcomeScreen extends StatefulWidget {
   const WelcomeScreen({super.key});
 
@@ -36,7 +34,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
     if (!_formKey.currentState!.validate()) return;
     FocusScope.of(context).unfocus();
     context.read<QuizProvider>().setPlayerName(_controller.text);
-    // Setelah isi nama, pengguna memilih subtes dulu.
+    //Setelah isi nama, pengguna memilih subtes dulu.
     Navigator.of(context).push(
       MaterialPageRoute(builder: (_) => const SubtestScreen()),
     );

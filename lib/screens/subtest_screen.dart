@@ -7,8 +7,6 @@ import '../widgets/gradient_background.dart';
 import '../widgets/subtest_card.dart';
 import 'quiz_screen.dart';
 
-/// Halaman 2: memilih subtes. Semua subtes memakai QuizScreen yang sama,
-/// hanya soalnya yang berbeda.
 class SubtestScreen extends StatelessWidget {
   const SubtestScreen({super.key});
 

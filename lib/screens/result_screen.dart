@@ -12,8 +12,6 @@ import '../widgets/subtest_card.dart';
 import 'quiz_screen.dart';
 import 'welcome_screen.dart';
 
-/// Halaman hasil: skor atas nama pengguna, pilihan subtes lain,
-/// dan pembahasan tiap soal.
 class ResultScreen extends StatelessWidget {
   const ResultScreen({super.key});
 
