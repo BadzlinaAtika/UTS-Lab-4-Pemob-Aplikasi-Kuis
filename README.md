@@ -24,13 +24,10 @@ QuizKuy adalah aplikasi kuis pilihan ganda bertema pemrograman Flutter. Pengguna
 
 ## c. Dokumentasi
 
-### i. Credit Aset
+### D. Credit Aset
 * **Font Kustom:** Google Fonts (Poppins - Regular, Medium, SemiBold, Bold) yang didaftarkan melalui `pubspec.yaml`.
-* **Aset Gambar & Ilustrasi:**
-    * Logo Aplikasi (`assets/images/logo.png`)
-    * Ikon Trofi / Hasil (`assets/images/trophy.png`)
 
-### ii. Screenshot Tiap Halaman Aplikasi
+### E. Screenshot Tiap Halaman Aplikasi
 
 * **Halaman Welcome / Input Nama (Light & Dark Mode)**
   <p align="center">
