@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../utils/responsive.dart';
 
-/// Latar gradien + pembatas lebar konten agar tetap rapi di tablet/web.
+/// Latar gradien monokrom (hitam-putih) + pembatas lebar konten agar tetap rapi di tablet/web.
 class GradientBackground extends StatelessWidget {
   final Widget child;
   const GradientBackground({super.key, required this.child});
@@ -17,8 +17,8 @@ class GradientBackground extends StatelessWidget {
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
           colors: dark
-              ? const [Color(0xFF12111A), Color(0xFF241B4A)]
-              : const [Color(0xFFF6F4FF), Color(0xFFE5DDFF)],
+              ? const [Color(0xFF000000), Color(0xFF1A1A1A)] // Hitam pekat ke abu-abu gelap (Dark Mode)
+              : const [Color(0xFFFFFFFF), Color(0xFFF2F2F2)], // Putih bersih ke abu-abu sangat muda (Light Mode)
         ),
       ),
       child: SafeArea(
